@@ -1,12 +1,12 @@
 <template>
 	<div class="todo">
 		<h1 class="title">Checklist</h1>
-		<ui-tabs type="text" class="todo-list">
-			<ui-tab title="pending">
+		<ui-tabs type="text" class="todo-list ui-tabs--background-color-clear">
+			<ui-tab title="Pending">
 				<todo-list :tasks="tasks" :completedItem="pending"></todo-list>
 			</ui-tab>
 
-			<ui-tab title="complete">
+			<ui-tab title="Complete">
 				<todo-list :tasks="tasks" :completedItem="completed"></todo-list>
 			</ui-tab>
 		</ui-tabs>
@@ -14,7 +14,7 @@
 		<div class="ui-elements">
 			<ui-textbox placeholder="e.g. 'read vue.js guide'" v-model="newTaskName"
 						@keydown-enter="addTask" :class="{error : this.taskIsEmpty}"></ui-textbox>
-			<ui-button color="primary" @click="addTask" icon="add">Add</ui-button>
+			<ui-button color="primary" @click="addTask">Add item</ui-button>
 		</div>
 	</div>
 </template>
@@ -34,10 +34,10 @@
         },
 
         mounted() {
-            if(localStorage.getItem('tasks')) {
+            if (localStorage.getItem('tasks')) {
                 try {
                     this.tasks = JSON.parse(localStorage.getItem('tasks'));
-                } catch(e) {
+                } catch (e) {
                     localStorage.removeItem('tasks');
                 }
             }
@@ -89,39 +89,55 @@
 		.tasks {
 			list-style: none;
 			padding: 0;
-			height:200px;
+			height: 200px;
 			overflow: auto;
 		}
 		&-list {
+			.ui-tabs__header-items {
+				li {
+					border-radius: 40px;
+					transition: background 300ms ease-out;
+					text-transform: none;
+					height: 2.5rem;
+					padding: 0 1.25rem;
+					margin-right: 10px;
+
+					&.is-active {
+						background: #ccc;
+						color: #fff;
+						border-bottom: none;
+					}
+				}
+			}
+			.ui-tabs__active-tab-indicator {
+				display: none;
+			}
+			.ui-tabs__body {
+				border:none;
+			}
+		}
+		.ui-tabs--background-color-clear .ui-tabs__header + .ui-tabs__body {
+			border:none;
 		}
 	}
 
 	.ui-elements {
 		display: flex;
 
-	}
-
-	.ui-textbox {
-		flex: 1 1 auto;
-		margin-right: 20px;
-		&.error {
-			input {
-				border-bottom-width: 2px;
-				border-bottom-color: rgba(#f00, .3);
+		.ui-textbox {
+			flex: 1 1 auto;
+			margin-right: 20px;
+			&.error {
+				input {
+					border-bottom-width: 2px;
+					border-bottom-color: rgba(#f00, .3);
+				}
 			}
 		}
-	}
 
-	.ui-button {
-		flex: 0 0 auto;
-	}
-
-	.task-item {
-		overflow: hidden;
-		&.complete {
-			.ui-checkbox__label-text {
-				text-decoration: line-through;
-			}
+		.ui-button {
+			flex: 0 0 auto;
+			border-radius: 20px;
 		}
 	}
 </style>

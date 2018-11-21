@@ -37,4 +37,16 @@
     html {
         font-size: 100%;
     }
+
+    .list-move,
+    .list-leave-active,
+    .list-enter-active {
+        transition: 500ms 200ms cubic-bezier(.87,-.41,.19,1.44);
+    }
+    .list-enter,
+    .list-leave-active {
+        /*transform: translate(100%, 0);*/
+        height: 0;
+        opacity: 0;
+    }
 </style>
